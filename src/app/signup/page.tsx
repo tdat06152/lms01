@@ -15,7 +15,7 @@ export default async function SignupPage() {
           Lần đầu vào hệ thống: chọn Gmail của bạn để tạo tài khoản. Sau đó bạn chỉ cần “Đăng nhập”.
         </p>
         <div className="row" style={{ justifyContent: "space-between" }}>
-          <LoginButton mode="signup" label="Đăng ký bằng Google" />
+          <LoginButton label="Đăng ký bằng Google" />
           <Link className="btn secondary" href="/login">
             Đăng nhập
           </Link>
@@ -24,4 +24,3 @@ export default async function SignupPage() {
     </main>
   );
 }
-

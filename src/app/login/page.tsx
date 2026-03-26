@@ -16,7 +16,7 @@ export default async function LoginPage() {
           trong bảng <code>profiles</code>.
         </p>
         <div className="row" style={{ justifyContent: "space-between" }}>
-          <LoginButton mode="login" label="Đăng nhập bằng Google" />
+          <LoginButton label="Đăng nhập bằng Google" />
           <Link className="btn secondary" href="/signup">
             Đăng ký
           </Link>
