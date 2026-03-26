@@ -3,6 +3,8 @@ import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { serverEnv } from "@/lib/env.server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
 
+export const runtime = "nodejs";
+
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
