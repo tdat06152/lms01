@@ -1,0 +1,892 @@
+.grammarShell {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.grammarContainer {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 28px 20px 56px;
+}
+
+.gTopbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 10px 0 22px;
+}
+
+.gBrand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+}
+
+.gNav {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.gNav a {
+  color: var(--muted);
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+}
+
+.gNav a:hover {
+  color: var(--text);
+  background: color-mix(in oklab, var(--surface-2) 60%, transparent);
+  border-color: var(--border);
+}
+
+.gHero {
+  text-align: center;
+  padding: 22px 0 26px;
+}
+
+.gHero h1 {
+  margin: 0;
+  font-size: clamp(28px, 5vw, 46px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.gHero h1 span {
+  color: var(--text);
+}
+
+.gHero p {
+  margin: 10px auto 0;
+  max-width: 760px;
+  color: var(--muted);
+}
+
+.gPanel {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+}
+
+.gPanelInner {
+  padding: 18px;
+}
+
+.gPracticeBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 18px;
+  border: 1px dashed var(--border);
+  border-radius: 18px;
+  background: var(--surface-2);
+}
+
+.gPracticeBanner h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.gPracticeBanner p {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.gBtn {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--text);
+  color: var(--bg);
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 120ms ease, background-color 120ms ease, border-color 120ms ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.gBtn:hover {
+  transform: translateY(-1px);
+  background: color-mix(in oklab, var(--text) 92%, #000);
+  border-color: color-mix(in oklab, var(--text) 30%, transparent);
+}
+
+.gBtn.secondary {
+  border-color: var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.gBtn.secondary:hover {
+  background: var(--surface-3);
+}
+
+.gInput {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  color: var(--text);
+  outline: none;
+}
+
+.gInput:focus {
+  border-color: color-mix(in oklab, var(--text) 40%, transparent);
+  box-shadow: var(--focus);
+}
+
+.gSectionTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 14px;
+  font-size: 18px;
+  letter-spacing: 0.1px;
+}
+
+.gGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.gCard {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  transition: transform 120ms ease, background-color 120ms ease, border-color 120ms ease;
+  min-height: 150px;
+}
+
+.gCard:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--text) 18%, transparent);
+  background: var(--surface-2);
+}
+
+.gCard h4 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.gCard p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.gMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: auto;
+}
+
+.gLinks {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.gLink {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.gLink:hover {
+  color: color-mix(in oklab, var(--text) 76%, var(--muted));
+}
+
+.gCrumbs {
+  margin: 6px 0 16px;
+}
+
+.gCrumbLink {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.gCrumbLink:hover {
+  color: var(--text);
+}
+
+.gSplit {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.gSidebar {
+  border-radius: 18px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  padding: 16px;
+  position: sticky;
+  top: 18px;
+}
+
+.gSidebarTitle {
+  font-weight: 900;
+  letter-spacing: 0.2px;
+}
+
+.gSidebarDesc {
+  margin-top: 6px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.gLessonList {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gLessonItem {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.gLessonItem:hover {
+  background: var(--surface-3);
+}
+
+.gLessonItem.active {
+  border-color: color-mix(in oklab, var(--text) 22%, transparent);
+  background: var(--surface-3);
+}
+
+.gLessonIndex {
+  height: 28px;
+  width: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.gLessonName {
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.gMain {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.gTabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.gTab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.gTab:hover {
+  background: var(--surface-2);
+}
+
+.gTab.active {
+  border-color: color-mix(in oklab, var(--text) 22%, transparent);
+  background: var(--surface-2);
+  color: var(--text);
+}
+
+.gTabBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.gSubtle {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.gExample {
+  margin-top: 16px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 16px;
+}
+
+.gExampleTitle {
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.gExamplePrompt {
+  font-weight: 900;
+  letter-spacing: 0.1px;
+}
+
+.gExampleOptions {
+  margin-top: 10px;
+  display: grid;
+  gap: 8px;
+}
+
+.gExampleOption {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  color: var(--text);
+}
+
+.gExampleKey {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 10px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  font-weight: 900;
+  font-size: 12px;
+}
+
+.gExampleExplain {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.gEmpty {
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 16px;
+}
+
+.gEmptyTitle {
+  font-weight: 900;
+}
+
+.gEmptyDesc {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.gPractice {
+  display: grid;
+  gap: 14px;
+}
+
+.gPracticeTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.gPills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.gPill {
+  appearance: none;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.gPill:hover {
+  background: var(--surface-3);
+}
+
+.gPill.on {
+  border-color: color-mix(in oklab, var(--text) 22%, transparent);
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.gProgress {
+  display: inline-flex;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 10px 12px;
+  border-radius: 14px;
+  font-weight: 900;
+}
+
+.gProgressDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: var(--text);
+  box-shadow: 0 0 0 4px color-mix(in oklab, var(--text) 12%, transparent);
+}
+
+.gQuestionCard {
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 16px;
+}
+
+.gPrompt {
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.1px;
+}
+
+.gOptions {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.gOption {
+  appearance: none;
+  text-align: left;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text);
+  cursor: pointer;
+  transition: transform 120ms ease, border-color 120ms ease, background-color 120ms ease;
+}
+
+.gOption:hover {
+  transform: translateY(-1px);
+  background: var(--surface-3);
+}
+
+.gOption.selected {
+  border-color: color-mix(in oklab, var(--text) 22%, transparent);
+  background: var(--surface-3);
+}
+
+.gOption.correct {
+  border-color: color-mix(in oklab, var(--success) 50%, transparent);
+  background: color-mix(in oklab, var(--success) 14%, var(--surface-1));
+}
+
+.gOption.wrong {
+  border-color: color-mix(in oklab, var(--danger) 50%, transparent);
+  background: color-mix(in oklab, var(--danger) 12%, var(--surface-1));
+}
+
+.gOptionKey {
+  width: 34px;
+  height: 34px;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  font-weight: 900;
+}
+
+.gOptionText {
+  font-weight: 800;
+}
+
+.gAnswerMeta {
+  margin-top: 12px;
+  font-weight: 900;
+  color: var(--muted);
+}
+
+.gAnswerMeta.ok {
+  color: var(--success);
+}
+
+.gAnswerMeta.bad {
+  color: var(--danger);
+}
+
+.gExplain {
+  margin-left: 8px;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.gPracticeBottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.gNumberNav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 6px;
+}
+
+.gNum {
+  appearance: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.gNum:hover {
+  background: var(--surface-3);
+}
+
+.gNum.active {
+  border-color: color-mix(in oklab, var(--text) 22%, transparent);
+  background: var(--surface-3);
+}
+
+.gNum.done {
+  border-color: color-mix(in oklab, var(--success) 38%, transparent);
+}
+
+@media (max-width: 980px) {
+  .gGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .gSplit {
+    grid-template-columns: 1fr;
+  }
+  .gSidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .grammarContainer {
+    padding: 18px 14px 42px;
+  }
+  .gGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Editor/admin UI (Grammar) */
+.gLessonMenu {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface-1) 40%, transparent);
+  color: var(--text);
+  cursor: pointer;
+}
+
+.gLessonMenu:hover {
+  background: var(--surface-3);
+}
+
+.gMenuPanel {
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  min-width: 170px;
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  padding: 8px;
+  z-index: 40;
+  display: grid;
+  gap: 8px;
+}
+
+.gMenuItem {
+  appearance: none;
+  width: 100%;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 10px 12px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 900;
+  text-align: left;
+}
+
+.gMenuItem:hover {
+  background: var(--surface-3);
+}
+
+.gEditBox {
+  margin-top: 12px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 14px;
+}
+
+.gEditToolbar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.gIconBtn {
+  appearance: none;
+  width: 38px;
+  height: 38px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 900;
+}
+
+.gIconBtn:hover {
+  background: var(--surface-3);
+}
+
+.gSep {
+  width: 1px;
+  height: 26px;
+  background: var(--border);
+  margin: 0 2px;
+}
+
+.gEditArea {
+  margin-top: 12px;
+  min-height: 240px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+  padding: 14px;
+  outline: none;
+}
+
+.gEditArea:focus {
+  box-shadow: var(--focus);
+}
+
+.gFormGrid {
+  margin-top: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+.gField {
+  min-width: 0;
+}
+
+.gError {
+  margin-top: 10px;
+  border-radius: 14px;
+  border: 1px solid color-mix(in oklab, var(--danger) 45%, var(--border));
+  background: color-mix(in oklab, var(--danger) 12%, var(--surface-1));
+  padding: 10px 12px;
+  font-weight: 800;
+}
+
+.gLessonContent {
+  margin-top: 14px;
+  border-radius: 18px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  padding: 16px;
+}
+
+.gLessonContent table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.gLessonContent td,
+.gLessonContent th {
+  border: 1px solid var(--border);
+  padding: 8px;
+}
+
+.gQList {
+  display: grid;
+  gap: 10px;
+}
+
+.gQRow {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+}
+
+.gQIndex {
+  width: 36px;
+  height: 36px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+}
+
+.gQPrompt {
+  font-weight: 900;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gOptGrid {
+  display: grid;
+  gap: 10px;
+}
+
+.gOptRow {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 10px;
+  align-items: center;
+}
+
+.gTag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 20px;
+  padding: 0 8px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: color-mix(in oklab, var(--surface-2) 60%, transparent);
+  font-weight: 900;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+}
+
+.gTag.easy {
+  border-color: color-mix(in oklab, var(--success) 40%, var(--border));
+  background: color-mix(in oklab, var(--success) 12%, var(--surface-1));
+}
+
+.gTag.medium {
+  border-color: color-mix(in oklab, #f59e0b 45%, var(--border));
+  background: color-mix(in oklab, #f59e0b 14%, var(--surface-1));
+}
+
+.gTag.hard {
+  border-color: color-mix(in oklab, var(--danger) 45%, var(--border));
+  background: color-mix(in oklab, var(--danger) 12%, var(--surface-1));
+}
+
+.gTag.group {
+  border-color: color-mix(in oklab, #60a5fa 45%, var(--border));
+  background: color-mix(in oklab, #60a5fa 12%, var(--surface-1));
+  margin-left: 8px;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .gFormGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gBankList {
+  display: grid;
+  gap: 10px;
+  max-height: 60vh;
+  overflow: auto;
+  padding-right: 4px;
+}
+
+.gBankRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: var(--surface-1);
+}
