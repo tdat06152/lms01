@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { serverEnv } from "@/lib/env.server";
+import { createSupabaseRouteClient } from "@/lib/supabase/route";
 
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = new URL(request.url);
@@ -9,7 +9,8 @@ export async function GET(request: NextRequest) {
 
   if (!code) return NextResponse.redirect(`${origin}/login`);
 
-  const supabase = await createSupabaseServerClient();
+  const response = NextResponse.redirect(`${origin}/`);
+  const supabase = createSupabaseRouteClient(request, response);
   await supabase.auth.exchangeCodeForSession(code);
 
   // Bootstrap: ensure the configured ADMIN_EMAIL always has admin role.
@@ -30,5 +31,5 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  return NextResponse.redirect(`${origin}/`);
+  return response;
 }

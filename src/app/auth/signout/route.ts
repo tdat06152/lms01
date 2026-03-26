@@ -1,9 +1,10 @@
-import { NextResponse } from "next/server";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
+import { createSupabaseRouteClient } from "@/lib/supabase/route";
 
-export async function POST(request: Request) {
-  const supabase = await createSupabaseServerClient();
-  await supabase.auth.signOut();
+export async function POST(request: NextRequest) {
   const origin = new URL(request.url).origin;
-  return NextResponse.redirect(`${origin}/`);
+  const response = NextResponse.redirect(`${origin}/`);
+  const supabase = createSupabaseRouteClient(request, response);
+  await supabase.auth.signOut();
+  return response;
 }
