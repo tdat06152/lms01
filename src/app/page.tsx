@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { getProfile, getUser } from "@/lib/auth/server";
+import { getProfileSafe, getSessionUser } from "@/lib/auth/server";
 import { serverEnv } from "@/lib/env.server";
 
 export default async function HomePage() {
-  const user = await getUser();
-  const profile = user ? await getProfile(user.id) : null;
+  const user = await getSessionUser();
+  const profile = user ? await getProfileSafe(user.id) : null;
   const isExpired = !!profile?.expires_at && new Date(profile.expires_at).getTime() <= Date.now();
   const fixedAdmin = !!serverEnv.adminEmail && user?.email?.toLowerCase() === serverEnv.adminEmail.toLowerCase();
   const isAdmin = !isExpired && (profile?.role === "admin" || fixedAdmin);

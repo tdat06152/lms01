@@ -16,6 +16,14 @@ export async function getUser() {
   return data.user ?? null;
 }
 
+// Fast path for UI only: reads session from cookies without validating with Supabase.
+// Do NOT use this for authorization checks.
+export async function getSessionUser() {
+  const supabase = await createSupabaseServerClient();
+  const { data } = await supabase.auth.getSession();
+  return data.session?.user ?? null;
+}
+
 export async function requireUser() {
   const user = await getUser();
   if (!user) redirect("/login");
@@ -32,6 +40,15 @@ export async function getProfile(userId: string) {
 
   if (error) throw error;
   return (data as Profile | null) ?? null;
+}
+
+// Safe variant for non-critical UI (e.g. sidebar links). Never throws.
+export async function getProfileSafe(userId: string) {
+  try {
+    return await getProfile(userId);
+  } catch {
+    return null;
+  }
 }
 
 function isExpired(expiresAt: string | null) {
