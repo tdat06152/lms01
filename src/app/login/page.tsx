@@ -3,9 +3,15 @@ import { getUser } from "@/lib/auth/server";
 import LoginButton from "./ui/LoginButton";
 import Link from "next/link";
 
-export default async function LoginPage() {
+export default async function LoginPage({
+  searchParams
+}: {
+  searchParams?: Promise<{ error?: string }>;
+}) {
   const user = await getUser();
   if (user) redirect("/");
+  const params = searchParams ? await searchParams : undefined;
+  const error = params?.error ? decodeURIComponent(params.error) : null;
 
   return (
     <main className="container">
@@ -21,6 +27,11 @@ export default async function LoginPage() {
             Đăng ký
           </Link>
         </div>
+        {error ? (
+          <p className="muted" style={{ marginTop: 12, color: "var(--danger, #b42318)" }}>
+            {error}
+          </p>
+        ) : null}
       </div>
     </main>
   );
