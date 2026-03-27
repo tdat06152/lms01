@@ -8,6 +8,7 @@ export async function GET(request: NextRequest) {
   const origin = new URL(request.url).origin;
   const supabase = createClient(env.supabaseUrl, env.supabaseAnonKey, {
     auth: {
+      flowType: "pkce",
       persistSession: false,
       autoRefreshToken: false,
       detectSessionInUrl: false
