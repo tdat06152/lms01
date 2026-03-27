@@ -1,8 +1,10 @@
 node_modules
 .next
+.open-next
 out
 .DS_Store
 .env
+.dev.vars
 .env.local
 .env.*.local
 npm-debug.log*
