@@ -26,8 +26,8 @@ ENV HOSTNAME=0.0.0.0
 ENV NEXT_PUBLIC_SITE_URL=""
 
 RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
+RUN mkdir -p public
 
-COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
