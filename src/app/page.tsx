@@ -1,13 +1,9 @@
 import Link from "next/link";
-import { getProfile, getUser } from "@/lib/auth/server";
-import { serverEnv } from "@/lib/env.server";
+import { getAccessState, getUser } from "@/lib/auth/server";
 
 export default async function HomePage() {
   const user = await getUser();
-  const profile = user ? await getProfile(user.id) : null;
-  const isExpired = !!profile?.expires_at && new Date(profile.expires_at).getTime() <= Date.now();
-  const fixedAdmin = !!serverEnv.adminEmail && user?.email?.toLowerCase() === serverEnv.adminEmail.toLowerCase();
-  const isAdmin = !isExpired && (profile?.role === "admin" || fixedAdmin);
+  const access = user ? await getAccessState(user) : null;
 
   return (
     <main className="container" style={{ paddingTop: 26 }}>
@@ -20,7 +16,7 @@ export default async function HomePage() {
           <Link className="btn" href="/grammar">
             Vào Grammar
           </Link>
-          {isAdmin ? (
+          {access?.isAdmin ? (
             <Link className="btn secondary" href="/admin">
               Admin
             </Link>

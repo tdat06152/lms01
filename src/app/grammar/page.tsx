@@ -15,9 +15,9 @@ function countBy<T extends string>(items: T[]) {
 }
 
 export default async function GrammarPage() {
-  const { user, profile } = await requireActiveUser();
+  const { user, access } = await requireActiveUser();
   const supabase = await createSupabaseServerClient();
-  const canEdit = profile?.role === "admin" || profile?.role === "member";
+  const canEdit = access.isEditor;
 
   const [{ data: topics, error: topicsError }, { data: lessons, error: lessonsError }, { data: questions, error: questionsError }, { data: attempts, error: attemptsError }] =
     await Promise.all([

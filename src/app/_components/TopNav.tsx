@@ -1,7 +1,6 @@
 import Link from "next/link";
-import { getProfile, getUser } from "@/lib/auth/server";
+import { getAccessState, getUser } from "@/lib/auth/server";
 import { ThemeToggle } from "@/app/_components/ThemeToggle";
-import { serverEnv } from "@/lib/env.server";
 
 function Icon({ name }: { name: "grammar" | "vocab" | "listening" | "reading" | "test" | "video" | "about" }) {
   const common = { className: "navIcon", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg" };
@@ -63,13 +62,7 @@ function Icon({ name }: { name: "grammar" | "vocab" | "listening" | "reading" | 
 
 export async function TopNav() {
   const user = await getUser();
-  const profile = user ? await getProfile(user.id) : null;
-  const isExpired = !!profile?.expires_at && new Date(profile.expires_at).getTime() <= Date.now();
-
-  const fixedAdmin = !!serverEnv.adminEmail && user?.email?.toLowerCase() === serverEnv.adminEmail.toLowerCase();
-  const isAdmin = !isExpired && (profile?.role === "admin" || fixedAdmin);
-  const isEditor = !isExpired && (profile?.role === "admin" || profile?.role === "member" || fixedAdmin);
-  const canSeeVideo = !isExpired && !!profile && (profile.role === "admin" || profile.role === "member" || profile.is_pro);
+  const access = user ? await getAccessState(user) : null;
 
   return (
     <header className="appHeader">
@@ -102,7 +95,7 @@ export async function TopNav() {
             <Icon name="test" />
             Test
           </Link>
-          {canSeeVideo ? (
+          {access?.canSeeVideo ? (
             <Link className="navLink" href="/video">
               <Icon name="video" />
               Video
@@ -112,12 +105,12 @@ export async function TopNav() {
             <Icon name="about" />
             About
           </Link>
-          {isEditor ? (
+          {access?.isEditor ? (
             <Link className="navLink" href="/question-bank">
               Ngân hàng câu hỏi
             </Link>
           ) : null}
-          {isAdmin ? (
+          {access?.isAdmin ? (
             <Link className="navLink" href="/admin">
               Admin
             </Link>
@@ -128,7 +121,7 @@ export async function TopNav() {
           {user ? (
             <span className="chip">
               {user.email}
-              {isExpired ? " (hết hạn)" : ""}
+              {access?.isExpired ? " (hết hạn)" : ""}
             </span>
           ) : (
             <Link className="btn secondary" href="/login">

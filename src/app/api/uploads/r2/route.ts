@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getAccessState } from "@/lib/auth/server";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { createPresignedPutUrl, r2PublicUrlForKey } from "@/lib/r2";
 
@@ -20,14 +21,8 @@ export async function POST(request: NextRequest) {
   const { data } = await supabase.auth.getUser();
   const user = data.user;
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-
-  const { data: profile, error: profileError } = await supabase
-    .from("profiles")
-    .select("expires_at")
-    .eq("id", user.id)
-    .maybeSingle();
-  if (profileError) return NextResponse.json({ error: "Profile lookup failed" }, { status: 500 });
-  if (profile?.expires_at && new Date(profile.expires_at).getTime() <= Date.now()) {
+  const access = await getAccessState(user);
+  if (access.isExpired) {
     return NextResponse.json({ error: "Account expired" }, { status: 403 });
   }
 

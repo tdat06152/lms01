@@ -15,12 +15,13 @@ export const envServer = {
 
   // Supabase / admin (server-only)
   supabaseServiceRoleKey: optional(process.env.SUPABASE_SERVICE_ROLE_KEY),
-  adminEmail: optional(process.env.ADMIN_EMAIL)
+  adminEmail: optional(process.env.ADMIN_EMAIL),
+  authzCookieSecret: optional(process.env.AUTHZ_COOKIE_SECRET) ?? optional(process.env.SUPABASE_SERVICE_ROLE_KEY)
 };
 
 // Back-compat for newer code paths
 export const serverEnv = {
   supabaseServiceRoleKey: envServer.supabaseServiceRoleKey,
-  adminEmail: envServer.adminEmail
+  adminEmail: envServer.adminEmail,
+  authzCookieSecret: envServer.authzCookieSecret
 };
-

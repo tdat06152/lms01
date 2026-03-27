@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 
@@ -111,11 +112,11 @@ export function TopicsGrid({ topics, canEdit }: { topics: GrammarTopicCard[]; ca
             const total = topic.questionCount;
             const done = topic.completedCount;
             return (
-              <div
+              <Link
                 key={topic.id}
                 className="gCard"
                 style={{ position: "relative", cursor: "pointer" }}
-                onClick={() => router.push(`/grammar/${topic.id}`)}
+                href={`/grammar/${topic.id}`}
               >
                 {canEdit ? (
                   <div style={{ position: "absolute", top: 10, right: 10 }}>
@@ -193,7 +194,7 @@ export function TopicsGrid({ topics, canEdit }: { topics: GrammarTopicCard[]; ca
                     <span className="gLink">Xem →</span>
                   </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </div>

@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { serverEnv } from "@/lib/env.server";
+import { buildAccessState, readAuthzCookie, type AccessProfile } from "@/lib/auth/access";
 
 export type Profile = {
   id: string;
@@ -39,31 +40,44 @@ function isExpired(expiresAt: string | null) {
   return new Date(expiresAt).getTime() <= Date.now();
 }
 
+function isFixedAdminEmail(email: string | null | undefined) {
+  return !!serverEnv.adminEmail && !!email && email.toLowerCase() === serverEnv.adminEmail.toLowerCase();
+}
+
+export async function getAccessState(user: { id: string; email?: string | null }) {
+  const fixedAdmin = isFixedAdminEmail(user.email);
+  const fromCookie = await readAuthzCookie(user.id);
+  if (fromCookie) {
+    return fixedAdmin ? buildAccessState({ role: fromCookie.role, is_pro: fromCookie.isPro, expires_at: fromCookie.expiresAt }, { fixedAdmin }) : fromCookie;
+  }
+
+  const profile = await getProfile(user.id);
+  return buildAccessState(profile as AccessProfile | null, { fixedAdmin });
+}
+
 export async function requireActiveUser() {
   const user = await requireUser();
-  const profile = await getProfile(user.id);
-  if (profile && isExpired(profile.expires_at)) redirect("/expired");
-  return { user, profile };
+  const access = await getAccessState(user);
+  if (access.isExpired) redirect("/expired");
+  return { user, access };
 }
 
 export async function requireAdmin() {
   const user = await requireUser();
-  const profile = await getProfile(user.id);
-  const isFixedAdmin = !!serverEnv.adminEmail && user.email?.toLowerCase() === serverEnv.adminEmail.toLowerCase();
-  if (!profile || (profile.role !== "admin" && !isFixedAdmin)) redirect("/not-found");
-  if (profile && isExpired(profile.expires_at)) redirect("/expired");
-  return { user, profile };
+  const access = await getAccessState(user);
+  if (!access.isAdmin) redirect("/not-found");
+  if (access.isExpired) redirect("/expired");
+  return { user, access };
 }
 
 export async function requireEditor() {
-  const { user, profile } = await requireActiveUser();
-  if (!profile || (profile.role !== "admin" && profile.role !== "member")) redirect("/not-found");
-  return { user, profile };
+  const { user, access } = await requireActiveUser();
+  if (!access.isEditor) redirect("/not-found");
+  return { user, access };
 }
 
 export async function requireVideoAccess() {
-  const { user, profile } = await requireActiveUser();
-  const hasVideo = !!profile && (profile.role === "admin" || profile.role === "member" || profile.is_pro);
-  if (!hasVideo) redirect("/upgrade");
-  return { user, profile };
+  const { user, access } = await requireActiveUser();
+  if (!access.canSeeVideo) redirect("/upgrade");
+  return { user, access };
 }

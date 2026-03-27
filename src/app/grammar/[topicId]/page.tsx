@@ -20,6 +20,8 @@ type QuestionRow = {
   options: { id: string; label: string | null; content: string; is_correct: boolean }[];
 };
 
+type QuestionCountRow = { id: string };
+
 export default async function GrammarTopicPage({
   params,
   searchParams
@@ -27,9 +29,9 @@ export default async function GrammarTopicPage({
   params: Promise<{ topicId: string }>;
   searchParams: Promise<{ tab?: string; lesson?: string }>;
 }) {
-  const { profile } = await requireActiveUser();
+  const { access } = await requireActiveUser();
   const supabase = await createSupabaseServerClient();
-  const canEdit = profile?.role === "admin" || profile?.role === "member";
+  const canEdit = access.isEditor;
 
   const { topicId } = await params;
   const { tab, lesson } = await searchParams;
@@ -57,25 +59,39 @@ export default async function GrammarTopicPage({
   const activeLesson = (lessonList.find((l) => l.id === activeLessonId) as Lesson | undefined) ?? null;
 
   let questionCount = 0;
+  let lessonExample: QuestionRow | null = null;
   let allQuestions: QuestionRow[] = [];
   if (activeLessonId) {
-    const { count, error: countError } = await supabase
-      .from("questions")
-      .select("id", { count: "exact", head: true })
-      .eq("lesson_id", activeLessonId);
-    if (countError) throw countError;
-    questionCount = count ?? 0;
+    if (activeTab === "practice") {
+      const { data: questionRows, error: qError } = await supabase
+        .from("questions")
+        .select("id, prompt, explanation, translation, difficulty, bank_topic, options(id, label, content, is_correct)")
+        .eq("lesson_id", activeLessonId)
+        .order("created_at", { ascending: true });
+      if (qError) throw qError;
+      allQuestions = (questionRows ?? []) as QuestionRow[];
+      questionCount = allQuestions.length;
+    } else {
+      const [{ data: countRows, error: countError }, { data: exampleRow, error: exampleError }] = await Promise.all([
+        supabase.from("questions").select("id").eq("lesson_id", activeLessonId),
+        supabase
+          .from("questions")
+          .select("id, prompt, explanation, translation, difficulty, bank_topic, options(id, label, content, is_correct)")
+          .eq("lesson_id", activeLessonId)
+          .order("created_at", { ascending: true })
+          .limit(1)
+          .maybeSingle()
+      ]);
 
-    const { data: questionRows, error: qError } = await supabase
-      .from("questions")
-      .select("id, prompt, explanation, translation, difficulty, bank_topic, options(id, label, content, is_correct)")
-      .eq("lesson_id", activeLessonId)
-      .order("created_at", { ascending: true });
-    if (qError) throw qError;
-    allQuestions = (questionRows ?? []) as QuestionRow[];
+      if (countError) throw countError;
+      if (exampleError) throw exampleError;
+
+      questionCount = ((countRows ?? []) as QuestionCountRow[]).length;
+      lessonExample = (exampleRow as QuestionRow | null) ?? null;
+    }
   }
 
-  const lessonExample = allQuestions[0] ?? null;
+  if (!lessonExample) lessonExample = allQuestions[0] ?? null;
   const practiceQuestions: PracticeQuestion[] = allQuestions.map((q) => ({
     id: q.id,
     prompt: q.prompt,

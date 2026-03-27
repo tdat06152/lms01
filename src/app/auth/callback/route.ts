@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createSupabaseAdminClient } from "@/lib/supabase/admin";
 import { serverEnv } from "@/lib/env.server";
 import { createSupabaseRouteClient } from "@/lib/supabase/route";
+import { setAuthzCookie, type AccessProfile } from "@/lib/auth/access";
 
 export const runtime = "nodejs";
 
@@ -30,6 +31,12 @@ export async function GET(request: NextRequest) {
           .update({ role: "admin", is_pro: true, expires_at: null, email: user.email })
           .eq("id", user.id);
       }
+
+      const { data: profile } = await admin.from("profiles").select("role, is_pro, expires_at").eq("id", user.id).maybeSingle();
+      setAuthzCookie(response, user.id, (profile as AccessProfile | null) ?? null, {
+        fixedAdmin: !!serverEnv.adminEmail && user.email.toLowerCase() === serverEnv.adminEmail.toLowerCase(),
+        secure: request.nextUrl.protocol === "https:"
+      });
     }
   }
 

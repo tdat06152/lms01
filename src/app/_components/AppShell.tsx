@@ -1,5 +1,4 @@
-import { getProfile, getUser } from "@/lib/auth/server";
-import { serverEnv } from "@/lib/env.server";
+import { getAccessState, getUser } from "@/lib/auth/server";
 import { AppShellClient } from "@/app/_components/AppShellClient";
 
 function displayNameForUser(user: { email?: string | null; user_metadata?: Record<string, unknown> }) {
@@ -13,22 +12,16 @@ function displayNameForUser(user: { email?: string | null; user_metadata?: Recor
 
 export async function AppShell({ children }: { children: React.ReactNode }) {
   const user = await getUser();
-  const profile = user ? await getProfile(user.id) : null;
-  const isExpired = !!profile?.expires_at && new Date(profile.expires_at).getTime() <= Date.now();
-
-  const fixedAdmin = !!serverEnv.adminEmail && user?.email?.toLowerCase() === serverEnv.adminEmail.toLowerCase();
-  const isAdmin = !isExpired && (profile?.role === "admin" || fixedAdmin);
-  const isEditor = !isExpired && (profile?.role === "admin" || profile?.role === "member" || fixedAdmin);
-  const canSeeVideo = !isExpired && !!profile && (profile.role === "admin" || profile.role === "member" || profile.is_pro);
+  const access = user ? await getAccessState(user) : null;
 
   return (
     <AppShellClient
       userEmail={user?.email ?? null}
       userName={user ? displayNameForUser(user) : null}
-      isExpired={isExpired}
-      isAdmin={isAdmin}
-      isEditor={isEditor}
-      canSeeVideo={canSeeVideo}
+      isExpired={access?.isExpired ?? false}
+      isAdmin={access?.isAdmin ?? false}
+      isEditor={access?.isEditor ?? false}
+      canSeeVideo={access?.canSeeVideo ?? false}
     >
       {children}
     </AppShellClient>

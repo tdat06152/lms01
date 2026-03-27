@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getProfile, requireUser } from "@/lib/auth/server";
+import { getAccessState, requireUser } from "@/lib/auth/server";
 
 function formatDate(expiresAt: string | null) {
   if (!expiresAt) return null;
@@ -13,8 +13,8 @@ function formatDate(expiresAt: string | null) {
 
 export default async function ExpiredPage() {
   const user = await requireUser();
-  const profile = await getProfile(user.id);
-  const when = formatDate(profile?.expires_at ?? null);
+  const access = await getAccessState(user);
+  const when = formatDate(access.expiresAt);
 
   return (
     <main className="container">
@@ -43,4 +43,3 @@ export default async function ExpiredPage() {
     </main>
   );
 }
-
