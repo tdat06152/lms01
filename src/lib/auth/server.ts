@@ -35,11 +35,6 @@ export async function getProfile(userId: string) {
   return (data as Profile | null) ?? null;
 }
 
-function isExpired(expiresAt: string | null) {
-  if (!expiresAt) return false;
-  return new Date(expiresAt).getTime() <= Date.now();
-}
-
 function isFixedAdminEmail(email: string | null | undefined) {
   return !!serverEnv.adminEmail && !!email && email.toLowerCase() === serverEnv.adminEmail.toLowerCase();
 }

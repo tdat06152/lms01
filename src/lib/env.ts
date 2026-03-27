@@ -6,9 +6,6 @@ function required(value: string | undefined, name: string) {
 // Note: In Next.js client bundles, `process.env` values are inlined only when
 // referenced statically (e.g. `process.env.NEXT_PUBLIC_FOO`). Avoid dynamic
 // access like `process.env[name]` for public env vars.
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
 function validateSupabaseEnv(url: string, anonKey: string) {
   // Common misconfig for this repo: using local Supabase Studio port with a placeholder key.
   // That results in OAuth redirects to `localhost:54321` and a confusing "connection refused".
@@ -42,12 +39,26 @@ function validateSupabaseEnv(url: string, anonKey: string) {
   }
 }
 
-export const env = {
-  supabaseUrl: required(supabaseUrl, "NEXT_PUBLIC_SUPABASE_URL"),
-  supabaseAnonKey: required(supabaseAnonKey, "NEXT_PUBLIC_SUPABASE_ANON_KEY"),
-  siteUrl:
-    process.env.NEXT_PUBLIC_SITE_URL ??
-    (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000")
-};
+function getSupabaseUrl() {
+  const value = required(process.env.NEXT_PUBLIC_SUPABASE_URL, "NEXT_PUBLIC_SUPABASE_URL");
+  validateSupabaseEnv(value, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "");
+  return value;
+}
 
-validateSupabaseEnv(env.supabaseUrl, env.supabaseAnonKey);
+function getSupabaseAnonKey() {
+  const value = required(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY, "NEXT_PUBLIC_SUPABASE_ANON_KEY");
+  validateSupabaseEnv(process.env.NEXT_PUBLIC_SUPABASE_URL ?? "", value);
+  return value;
+}
+
+export const env = {
+  get supabaseUrl() {
+    return getSupabaseUrl();
+  },
+  get supabaseAnonKey() {
+    return getSupabaseAnonKey();
+  },
+  get siteUrl() {
+    return process.env.NEXT_PUBLIC_SITE_URL ?? (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+  }
+};
