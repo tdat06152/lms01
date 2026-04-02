@@ -65,35 +65,78 @@ export default async function GrammarPage() {
     };
   });
 
+  const totalQuestions = topicCards.reduce((sum, topic) => sum + topic.questionCount, 0);
+  const totalCompleted = topicCards.reduce((sum, topic) => sum + topic.completedCount, 0);
+  const completedTopics = topicCards.filter((topic) => topic.questionCount > 0 && topic.completedCount >= topic.questionCount).length;
+
   return (
     <main className="grammarContainer">
-      <div className="gHero">
-        <h1>
-          Chinh phục <span>Part 5 TOEIC</span>
-        </h1>
-        <p>Chọn 1 chủ đề → vào “Bài học” để học, hoặc “Luyện tập” để làm bài dạng test.</p>
+      <div className="gHeroGrid">
+        <section className="gHeroCopy">
+          <span className="gHeroEyebrow">LMS giao diện mới</span>
+          <h1>
+            QUY TRÌNH
+            <br />
+            VẬN HÀNH
+          </h1>
+          <p>
+            Chọn 1 chủ đề → vào <strong>&quot;Bài học&quot;</strong> để học, hoặc <strong>&quot;Luyện tập&quot;</strong> để làm
+            bài dạng test.
+          </p>
+
+          <div className="gHeroStats">
+            <div className="gStatCard">
+              <strong>{topicCards.length}</strong>
+              <span>Chủ đề đang có</span>
+            </div>
+            <div className="gStatCard">
+              <strong>
+                {totalCompleted}/{totalQuestions}
+              </strong>
+              <span>Câu đã làm</span>
+            </div>
+            <div className="gStatCard">
+              <strong>{completedTopics}</strong>
+              <span>Chủ đề hoàn tất</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="gPracticeSpotlight">
+          <div className="gPracticeIcon">R</div>
+          <div>
+            <h3>Luyện tập ngẫu nhiên</h3>
+            <p>10 câu hỏi ngẫu nhiên từ ngân hàng câu hỏi mới nhất của bạn.</p>
+          </div>
+          <Link className="gBtn light" href="/grammar/random">
+            Bắt đầu
+          </Link>
+          <div className="gPracticeGlow" aria-hidden="true" />
+        </section>
       </div>
 
-      <div className="gPanel">
-        <div className="gPanelInner">
-          <div className="gPracticeBanner">
-            <div>
-              <h3>Luyện tập ngẫu nhiên</h3>
-              <p>10 câu hỏi ngẫu nhiên từ ngân hàng câu hỏi của bạn</p>
-            </div>
-            <Link className="gBtn" href="/grammar/random">
-              Bắt đầu
-            </Link>
-          </div>
+      <TopicsGrid topics={topicCards} canEdit={canEdit} />
 
-          <div style={{ height: 14 }} />
-          <TopicsGrid topics={topicCards} canEdit={canEdit} />
-
-          <div style={{ marginTop: 16, color: "var(--muted)", fontSize: 12 }}>
-            Đăng nhập: {user.email}
+      <section className="gEditorial">
+        <div className="gEditorialVisual" aria-hidden="true">
+          <div className="gEditorialCard">
+            <span>Focus Mode</span>
+            <strong>80 / 20</strong>
+            <p>20% lý thuyết, 80% thực hành để tăng phản xạ Part 5.</p>
           </div>
         </div>
-      </div>
+
+        <div className="gEditorialCopy">
+          <h2>Kinh nghiệm học Grammar hiệu quả</h2>
+          <p>Đừng chỉ cố gắng nhớ mặt chữ. Hãy tập trung vào lỗi sai lặp lại, cấu trúc thường gặp và nhịp ôn tập ngắn nhưng đều.</p>
+          <ul className="gEditorialList">
+            <li>Phân tích lỗi sai sau mỗi bài test.</li>
+            <li>Ghi chép các cấu trúc câu đặc biệt.</li>
+            <li>Ôn tập định kỳ mỗi tuần một lần.</li>
+          </ul>
+          <div className="gEditorialFooter">Đăng nhập: {user.email}</div>
+        </div>
+      </section>
     </main>
   );
 }

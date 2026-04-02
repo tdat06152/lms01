@@ -25,6 +25,26 @@ function isActive(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`) || pathname.startsWith(`${href}?`) || pathname.startsWith(href);
 }
 
+function NavIcon({ label }: { label: string }) {
+  const map: Record<string, string> = {
+    Grammar: "G",
+    Vocab: "V",
+    Listening: "L",
+    Reading: "R",
+    Test: "T",
+    Video: "P",
+    About: "i",
+    "Ngân hàng câu hỏi": "Q",
+    Admin: "A"
+  };
+
+  return (
+    <span className="sideLinkIcon" aria-hidden="true">
+      {map[label] ?? "•"}
+    </span>
+  );
+}
+
 export function AppShellClient({
   children,
   userEmail,
@@ -44,6 +64,7 @@ export function AppShellClient({
 }) {
   const pathname = usePathname();
   const title = titleForPath(pathname);
+  const displayName = userName ?? userEmail ?? "Student Name";
 
   const links: Array<{ href: string; label: string; show: boolean }> = [
     { href: "/grammar", label: "Grammar", show: true },
@@ -62,8 +83,11 @@ export function AppShellClient({
       <aside className="appSidebar">
         <div className="appSidebarTop">
           <Link className="sideBrand" href="/">
-            <span className="sideLogo">T</span>
-            <span>Đậu TOEIC</span>
+            <span className="sideLogo">L</span>
+            <span className="sideBrandText">
+              <strong>LMS</strong>
+              <small>Learning Portal</small>
+            </span>
           </Link>
         </div>
 
@@ -72,15 +96,21 @@ export function AppShellClient({
             .filter((l) => l.show)
             .map((l) => (
               <Link key={l.href} className={`sideLink ${isActive(pathname, l.href) ? "active" : ""}`} href={l.href}>
-                {l.label}
+                <NavIcon label={l.label} />
+                <span>{l.label}</span>
               </Link>
             ))}
         </nav>
 
         <div className="sideFooter">
+          <div className="sidePromo">
+            <div className="sidePromoTitle">Upgrade Pro</div>
+            <div className="sidePromoText">Mở khóa thêm tính năng luyện tập và quản trị nhanh hơn.</div>
+          </div>
+
           {userEmail ? (
             <div className="sideUser" title={userEmail}>
-              {userName ?? userEmail}
+              {displayName}
               {isExpired ? " (hết hạn)" : ""}
             </div>
           ) : (
@@ -88,6 +118,7 @@ export function AppShellClient({
               Đăng nhập
             </Link>
           )}
+
           <div className="row" style={{ justifyContent: "space-between", width: "100%" }}>
             <ThemeToggle />
             {userEmail ? (
@@ -103,8 +134,36 @@ export function AppShellClient({
 
       <div className="appContent">
         <div className="appTopbar">
+          <div className="appTopbarMain">
+            <div className="appSearch">
+              <span className="appSearchIcon" aria-hidden="true">
+                /
+              </span>
+              <input aria-label="Tìm kiếm" placeholder="Tìm kiếm bài học hoặc chủ đề..." />
+            </div>
+
+            <div className="appTopbarActions">
+              <button className="iconBtn" type="button" aria-label="Thông báo">
+                N
+              </button>
+              <button className="iconBtn" type="button" aria-label="Cài đặt">
+                S
+              </button>
+              <div className="topbarDivider" />
+              <div className="appProfile">
+                <div className="appProfileMeta">
+                  <strong>{displayName}</strong>
+                  <span>{isAdmin ? "Admin Plan" : isEditor ? "Editor Plan" : "Standard Plan"}</span>
+                </div>
+                <div className="appAvatar" aria-hidden="true">
+                  {displayName.slice(0, 1).toUpperCase()}
+                </div>
+              </div>
+            </div>
+          </div>
           <div className="appTitle">{title}</div>
         </div>
+
         <div className="appBody">{children}</div>
       </div>
     </div>

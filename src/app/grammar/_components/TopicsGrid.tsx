@@ -19,6 +19,13 @@ function formatCount(n: number) {
   return new Intl.NumberFormat("vi-VN").format(n);
 }
 
+function completionLabel(done: number, total: number) {
+  if (total === 0) return "Chưa có câu hỏi";
+  if (done <= 0) return "Chưa bắt đầu";
+  if (done >= total) return `${done}/${total} Xong`;
+  return `${done}/${total} Hoàn thành`;
+}
+
 export function TopicsGrid({ topics, canEdit }: { topics: GrammarTopicCard[]; canEdit: boolean }) {
   const [query, setQuery] = useState("");
   const router = useRouter();
@@ -84,8 +91,11 @@ export function TopicsGrid({ topics, canEdit }: { topics: GrammarTopicCard[]; ca
         onChange={(e) => setQuery(e.target.value)}
       />
 
-      <div className="gSectionTitle" style={{ marginTop: 18 }}>
-        <span style={{ flex: 1 }}>Các chủ đề ngữ pháp</span>
+      <div className="gSectionTitle" style={{ marginTop: 28 }}>
+        <div>
+          <div className="gSectionEyebrow">Grammar Dashboard</div>
+          <span>Chủ đề Ngữ pháp</span>
+        </div>
         {canEdit ? (
           <button
             type="button"
@@ -111,20 +121,24 @@ export function TopicsGrid({ topics, canEdit }: { topics: GrammarTopicCard[]; ca
           {filtered.map((topic) => {
             const total = topic.questionCount;
             const done = topic.completedCount;
+            const percent = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
+            const statusTone = done >= total && total > 0 ? "done" : done > 0 ? "progress" : "idle";
+
             return (
               <Link
                 key={topic.id}
-                className="gCard"
+                className={`gCard gTopicCard ${statusTone}`}
                 style={{ position: "relative", cursor: "pointer" }}
                 href={`/grammar/${topic.id}`}
               >
                 {canEdit ? (
-                  <div style={{ position: "absolute", top: 10, right: 10 }}>
+                  <div style={{ position: "absolute", top: 18, right: 18 }}>
                     <button
                       type="button"
                       className="gBtn secondary"
-                      style={{ padding: "8px 10px", borderRadius: 12 }}
+                      style={{ padding: "8px 10px", borderRadius: 999 }}
                       onClick={(e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         setMenuOpenId((v) => (v === topic.id ? null : topic.id));
                       }}
@@ -152,17 +166,19 @@ export function TopicsGrid({ topics, canEdit }: { topics: GrammarTopicCard[]; ca
                           type="button"
                           className="gBtn secondary"
                           style={{ width: "100%", justifyContent: "flex-start" }}
-                          onClick={() =>
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
                             setDraft({
                               id: topic.id,
                               title: topic.title,
                               description: topic.description ?? "",
                               sortOrder: topic.sortOrder
-                            })
-                          }
+                            });
+                          }}
                           disabled={busy}
                         >
-                          ✏️ Sửa
+                          Sua
                         </button>
                         <div style={{ height: 8 }} />
                         <button
@@ -170,20 +186,34 @@ export function TopicsGrid({ topics, canEdit }: { topics: GrammarTopicCard[]; ca
                           className="gBtn secondary"
                           style={{ width: "100%", justifyContent: "flex-start" }}
                           onClick={(e) => {
+                            e.preventDefault();
                             e.stopPropagation();
                             deleteTopic(topic.id);
                           }}
                           disabled={busy}
                         >
-                          🗑️ Xoá
+                          Xoa
                         </button>
                       </div>
                     ) : null}
                   </div>
                 ) : null}
+
+                <div className="gTopicHead">
+                  <div className="gTopicIcon">{topic.title.slice(0, 1).toUpperCase()}</div>
+                  <span className={`gTopicBadge ${statusTone}`}>{completionLabel(done, total)}</span>
+                </div>
+
                 <div>
                   <h4>{topic.title}</h4>
-                  <p>{topic.description ?? "Chưa có mô tả."}</p>
+                  <p>{topic.description ?? "Chưa có mô tả cho chủ đề này."}</p>
+                </div>
+
+                <div className="gTopicProgress">
+                  <div className="gTopicProgressBar">
+                    <div className="gTopicProgressValue" style={{ width: `${percent}%` }} />
+                  </div>
+                  <span>{percent}%</span>
                 </div>
 
                 <div className="gMeta">
@@ -191,7 +221,7 @@ export function TopicsGrid({ topics, canEdit }: { topics: GrammarTopicCard[]; ca
                     {formatCount(done)}/{formatCount(total)} câu đã hoàn thành
                   </div>
                   <div className="gLinks">
-                    <span className="gLink">Xem →</span>
+                    <span className="gLink">Xem chi tiết →</span>
                   </div>
                 </div>
               </Link>
@@ -272,12 +302,7 @@ export function TopicsGrid({ topics, canEdit }: { topics: GrammarTopicCard[]; ca
 
             <div style={{ height: 14 }} />
             <div className="row" style={{ justifyContent: "flex-end" }}>
-              <button
-                type="button"
-                className="btn"
-                onClick={() => saveTopic(draft)}
-                disabled={busy || !draft.title.trim()}
-              >
+              <button type="button" className="btn" onClick={() => saveTopic(draft)} disabled={busy || !draft.title.trim()}>
                 Lưu
               </button>
             </div>
