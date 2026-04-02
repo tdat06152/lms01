@@ -529,11 +529,20 @@ body {
 }
 
 .authPage {
+  --auth-bg: #f5f7f9;
+  --auth-surface: #ffffff;
+  --auth-muted-surface: #eef1f3;
+  --auth-input: #e5e9eb;
+  --auth-text: #2c2f31;
+  --auth-muted: #595c5e;
+  --auth-outline: rgba(171, 173, 175, 0.2);
+  --auth-primary: #1657da;
+  --auth-footer: #eef1f3;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  background: var(--bg);
-  color: var(--text);
+  background: var(--auth-bg);
+  color: var(--auth-text);
 }
 
 .authHeader {
@@ -558,7 +567,7 @@ body {
 
 .authBrand {
   font-family: "Plus Jakarta Sans", "Manrope", sans-serif;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 800;
   letter-spacing: -0.03em;
 }
@@ -571,7 +580,7 @@ body {
 
 .authNavLink {
   padding-bottom: 6px;
-  color: var(--text);
+  color: var(--auth-text);
   opacity: 0.72;
   font-weight: 700;
   border-bottom: 2px solid transparent;
@@ -580,9 +589,9 @@ body {
 
 .authNavLink:hover,
 .authNavLink.active {
-  color: var(--primary);
+  color: var(--auth-primary);
   opacity: 1;
-  border-color: var(--primary);
+  border-color: var(--auth-primary);
 }
 
 .authMain {
@@ -608,7 +617,7 @@ body {
   left: -10%;
   width: 500px;
   height: 500px;
-  background: rgba(123, 156, 255, 0.16);
+  background: rgba(123, 156, 255, 0.22);
 }
 
 .authGlowRight {
@@ -616,15 +625,15 @@ body {
   bottom: -10%;
   width: 600px;
   height: 600px;
-  background: rgba(248, 151, 238, 0.12);
+  background: rgba(248, 151, 238, 0.18);
 }
 
 .authCard {
   position: relative;
   z-index: 1;
   width: 100%;
-  max-width: 1152px;
-  background: var(--surface-1);
+  max-width: 1110px;
+  background: var(--auth-surface);
   border-radius: 32px;
   box-shadow: 0 20px 40px rgba(44, 47, 49, 0.06);
   overflow: hidden;
@@ -632,12 +641,13 @@ body {
 
 .authCardSplit {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(420px, 0.95fr);
+  grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
 }
 
 .authVisual {
   position: relative;
-  min-height: 600px;
+  min-height: 560px;
+  background: #dbe5ff;
 }
 
 .authVisual img {
@@ -651,27 +661,31 @@ body {
 .authVisualOverlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(45deg, rgba(0, 80, 213, 0.68), rgba(0, 80, 213, 0.08));
+  background:
+    linear-gradient(180deg, rgba(245, 247, 249, 0.08), rgba(22, 87, 218, 0.16)),
+    linear-gradient(0deg, rgba(66, 84, 170, 0.28), rgba(66, 84, 170, 0.28));
 }
 
 .authVisualContent {
   position: absolute;
-  left: 48px;
+  left: 40px;
   right: 48px;
-  bottom: 48px;
+  bottom: 36px;
   color: white;
 }
 
 .authVisualContent h2 {
   margin: 0 0 16px;
   font-family: "Plus Jakarta Sans", "Manrope", sans-serif;
-  font-size: 44px;
-  line-height: 1.05;
+  font-size: 27px;
+  line-height: 1.08;
   font-weight: 800;
   letter-spacing: -0.03em;
+  max-width: 300px;
 }
 
 .authVisualContent p {
+  min-height: 18px;
   margin: 0;
   max-width: 420px;
   font-size: 18px;
@@ -679,7 +693,7 @@ body {
 }
 
 .authFormPanel {
-  padding: 48px 40px;
+  padding: 54px 40px 44px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -692,7 +706,7 @@ body {
 .authFormIntro h1 {
   margin: 0 0 10px;
   font-family: "Plus Jakarta Sans", "Manrope", sans-serif;
-  font-size: 36px;
+  font-size: 24px;
   line-height: 1.05;
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -700,24 +714,25 @@ body {
 
 .authFormIntro p {
   margin: 0;
-  color: var(--muted);
-  font-size: 16px;
+  color: var(--auth-muted);
+  font-size: 13px;
 }
 
 .authGoogleButton {
   width: 100%;
-  min-height: 58px;
+  min-height: 46px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 16px 24px;
+  padding: 12px 24px;
   border-radius: 999px;
-  border: 1px solid rgba(89, 92, 94, 0.1);
-  background: color-mix(in oklab, var(--surface-2) 82%, white 18%);
-  color: var(--text);
-  font-weight: 700;
-  box-shadow: 0 8px 24px rgba(44, 47, 49, 0.04);
+  border: 1px solid transparent;
+  background: var(--auth-muted-surface);
+  color: var(--auth-text);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: none;
   transition: transform 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
 
@@ -733,13 +748,13 @@ body {
 
 .authGoogleButton:hover {
   transform: translateY(-1px);
-  background: color-mix(in oklab, var(--surface-3) 76%, white 24%);
-  box-shadow: 0 14px 28px rgba(44, 47, 49, 0.08);
+  background: #e5e9eb;
+  box-shadow: 0 10px 22px rgba(44, 47, 49, 0.06);
 }
 
 .authDivider {
   position: relative;
-  margin: 30px 0 24px;
+  margin: 24px 0 24px;
   text-align: center;
 }
 
@@ -757,57 +772,128 @@ body {
   position: relative;
   display: inline-block;
   padding: 0 14px;
-  background: var(--surface-1);
+  background: var(--auth-surface);
   color: #747779;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
-.authInfoCard {
-  padding: 24px;
-  border-radius: 22px;
-  background: color-mix(in oklab, var(--surface-2) 74%, white 26%);
-  border: 1px solid rgba(171, 173, 175, 0.16);
+.authMockForm {
+  display: grid;
+  gap: 18px;
 }
 
-.authInfoTitle {
-  margin-bottom: 10px;
+.authField {
+  display: grid;
+  gap: 8px;
+}
+
+.authField label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--auth-text);
+}
+
+.authFieldRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.authFieldRow a {
+  color: var(--auth-primary);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.authField input {
+  width: 100%;
+  min-height: 46px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--auth-input);
+  color: var(--auth-text);
+  font: inherit;
+  opacity: 1;
+}
+
+.authField input::placeholder {
+  color: rgba(116, 119, 121, 0.6);
+}
+
+.authPasswordWrap {
+  position: relative;
+}
+
+.authPasswordWrap span {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #8f9499;
+  font-size: 18px;
+}
+
+.authPrimaryButton {
+  width: 100%;
+  min-height: 48px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--auth-primary);
+  color: white;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
   font-weight: 800;
-  font-size: 15px;
+  cursor: pointer;
+  box-shadow: 0 16px 28px rgba(22, 87, 218, 0.16);
+  transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
 }
 
-.authInfoCard p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.7;
+.authPrimaryButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 32px rgba(22, 87, 218, 0.22);
+  background: #0f4fcd;
+}
+
+.authHint {
+  margin-top: 12px;
+  text-align: center;
+  color: var(--auth-muted);
+  font-size: 11px;
+  line-height: 1.6;
 }
 
 .authError {
-  margin-top: 18px;
-  padding: 14px 16px;
+  margin-top: 16px;
+  padding: 12px 14px;
   border-radius: 16px;
   color: #570008;
   background: rgba(251, 81, 81, 0.16);
   border: 1px solid rgba(179, 27, 37, 0.18);
   font-weight: 700;
+  font-size: 13px;
 }
 
 .authBottomText {
   margin-top: 28px;
   text-align: center;
-  color: var(--muted);
+  color: var(--auth-muted);
+  font-size: 12px;
 }
 
 .authBottomText a {
-  color: var(--primary);
-  font-weight: 800;
+  color: var(--auth-text);
+  font-weight: 700;
 }
 
 .authFooter {
-  padding: 32px 24px;
-  background: #eef1f3;
+  padding: 34px 24px;
+  background: var(--auth-footer);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -818,33 +904,49 @@ body {
 .authFooterBrand span {
   display: block;
   font-family: "Plus Jakarta Sans", "Manrope", sans-serif;
-  font-size: 20px;
+  font-size: 15px;
   font-weight: 800;
 }
 
 .authFooterBrand p {
   margin: 6px 0 0;
-  color: rgba(44, 47, 49, 0.6);
-  font-size: 13px;
+  color: rgba(44, 47, 49, 0.72);
+  font-size: 11px;
   font-weight: 700;
 }
 
 .authFooterNav {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 22px;
   flex-wrap: wrap;
 }
 
 .authFooterNav a {
-  color: rgba(44, 47, 49, 0.68);
-  font-size: 13px;
+  color: rgba(44, 47, 49, 0.56);
+  font-size: 11px;
   font-weight: 700;
   transition: color 160ms ease;
 }
 
 .authFooterNav a:hover {
-  color: var(--primary);
+  color: var(--auth-primary);
+}
+
+.authInfoCard {
+  display: none;
+}
+
+.authInfoTitle {
+  margin-bottom: 10px;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.authInfoCard p {
+  margin: 0;
+  color: var(--auth-muted);
+  line-height: 1.7;
 }
 
 @media (max-width: 980px) {
@@ -857,7 +959,7 @@ body {
   }
 
   .authFormPanel {
-    padding: 36px 24px;
+    padding: 34px 24px;
   }
 
   .authHeaderInner {

@@ -43,27 +43,46 @@ export default async function LoginPage({
             />
             <div className="authVisualOverlay" />
             <div className="authVisualContent">
-              <h2>HANH TRINH HOC TAP VA PHAT TRIEN</h2>
-              <p>Khong gian hoc tap hien dai, gon gang va san sang cho lo trinh cua ban.</p>
+              <h2>HÀNH TRÌNH HỌC TẬP VÀ PHÁT TRIỂN</h2>
+              <p />
             </div>
           </div>
 
           <div className="authFormPanel">
             <div className="authFormIntro">
-              <h1>Chao mung tro lai</h1>
-              <p>Dang nhap de den voi lo trinh hoc tap cua ban.</p>
+              <h1>Chào mừng trở lại</h1>
+              <p>Đăng nhập để đến với lộ trình học tập của bạn!</p>
             </div>
 
             <LoginButton label="Sign in with Google" className="authGoogleButton" />
 
             <div className="authDivider">
-              <span>Google OAuth dang hoat dong</span>
+              <span>or continue with email</span>
             </div>
 
-            <div className="authInfoCard">
-              <div className="authInfoTitle">Dang nhap hien tai</div>
-              <p>He thong dang su dung Google de dang nhap an toan. Sau khi vao he thong, tai khoan se duoc tao hoac dong bo tu dong.</p>
-            </div>
+            <form className="authMockForm" action="/auth/login" method="get">
+              <div className="authField">
+                <label htmlFor="auth-email">Email address</label>
+                <input id="auth-email" type="email" placeholder="name@fluidacademy.com" disabled />
+              </div>
+
+              <div className="authField">
+                <div className="authFieldRow">
+                  <label htmlFor="auth-password">Password</label>
+                  <a href="#">Forgot password?</a>
+                </div>
+                <div className="authPasswordWrap">
+                  <input id="auth-password" type="password" placeholder="••••••••" disabled />
+                  <span aria-hidden="true">◌</span>
+                </div>
+              </div>
+
+              <button className="authPrimaryButton" type="submit">
+                Sign In
+              </button>
+            </form>
+
+            <div className="authHint">Hiện tại hệ thống xác thực bằng Google OAuth để đăng nhập an toàn.</div>
 
             {error ? (
               <div className="authError" role="alert">
@@ -72,7 +91,7 @@ export default async function LoginPage({
             ) : null}
 
             <div className="authBottomText">
-              Don&apos;t have an account? <Link href="/signup">Dang ky ngay</Link>
+              Don&apos;t have an account? <Link href="/signup">Đăng ký ngay!</Link>
             </div>
           </div>
         </div>
