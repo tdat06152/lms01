@@ -63,6 +63,7 @@ export function AppShellClient({
   canSeeVideo: boolean;
 }) {
   const pathname = usePathname();
+  const isStandaloneAuth = pathname === "/login" || pathname === "/signup";
   const title = titleForPath(pathname);
   const displayName = userName ?? userEmail ?? "Student Name";
 
@@ -77,6 +78,10 @@ export function AppShellClient({
     { href: "/question-bank", label: "Ngân hàng câu hỏi", show: isEditor },
     { href: "/admin", label: "Admin", show: isAdmin }
   ];
+
+  if (isStandaloneAuth) {
+    return <>{children}</>;
+  }
 
   return (
     <div className="appShell">
